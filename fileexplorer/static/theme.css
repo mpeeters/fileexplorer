@@ -155,6 +155,17 @@ div.files {
     padding: 1em;
 }
 
+div.files div.title {
+    color: #333;
+    padding: 0.2em 0.2em;
+    margin-bottom: 0.8em;
+    background-color: #EDEDED;
+}
+
+div.files div.title span {
+    margin: 0 0.2em;
+}
+
 div.files a:link, div.files a:visited {
     color: #333;
 }

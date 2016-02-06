@@ -54,6 +54,16 @@ class Folder(object):
             return '{0}/'.format(os.path.join(*self.request_path[:-1]))
         return ''
 
+    @property
+    def path_list(self):
+        paths = []
+        for idx, value in enumerate(self.request_path):
+            paths.append((
+                value,
+                os.path.join(*self.request_path[:idx + 1]),
+            ))
+        return paths
+
 
 class Element(object):
     extensions = {
