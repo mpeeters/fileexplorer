@@ -23,7 +23,7 @@ def home(request):
     return {
         'files': get_file_list(basepath),
         'parent': '',
-        'path': '/',
+        'path': '',
         'has_parent': False,
     }
 
