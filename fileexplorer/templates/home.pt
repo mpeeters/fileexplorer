@@ -37,8 +37,9 @@
               <div class="files">
                 <div class="title">
                   <strong>
+                    <span>/</span>
                     <tal:block repeat="path folder.path_list">
-                    <span>/</span> <a href="/f/${path[1]}">${path[0]}</a>
+                    <a href="/f/${path[1]}">${path[0]}</a> <span>/</span>
                     </tal:block>
                   </strong>
                   <br>
