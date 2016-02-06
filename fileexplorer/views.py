@@ -59,7 +59,7 @@ def get_filetype(filepath, filename):
     for type, exts in extensions.items():
         if extension in exts:
             filetype = type
-    if not extension and os.path.isdir(os.path.join(filepath, filename)):
+    if os.path.isdir(os.path.join(filepath, filename)):
         filetype = 'folder'
     return filetype
 
