@@ -36,30 +36,30 @@
               <h1><span class="font-semi-bold">File</span> <span class="smaller">Explorer</span></h1>
               <p>
                 <strong>
-                  Liste des fichiers : /${path}
+                  Liste des fichiers : /${folder.path}
                 </strong><br>
               </p>
               <div class="files">
                 <ul class="fa-ul">
-                  <tal:block condition="has_parent">
+                  <tal:block condition="folder.has_parent">
                   <li>
-                    <a href="/f/${parent}">
+                    <a href="/f/${folder.parent_path}">
                       <span class="fa-li fa fa-folder-open-o"></span>
                       ..
                     </a>
                   </li>
                   </tal:block>
-                  <tal:block repeat="file files">
+                  <tal:block repeat="file folder.elements">
                   <li>
-                    <tal:block condition="python: file['type'] == 'folder'">
-                    <a href="/f/${path}${file.filename}">
-                      <span class="fa-li fa fa-${file.cls}"></span>
+                    <tal:block condition="python: file.filetype == 'folder'">
+                    <a href="/f/${folder.path}${file.filename}">
+                      <span class="fa-li fa fa-${file.css_class}"></span>
                       ${file.filename}
                     </a>
                     </tal:block>
-                    <tal:block condition="python: file['type'] != 'folder'">
-                    <a href="/file/${path}${file.filename}">
-                      <span class="fa-li fa fa-${file.cls}"></span>
+                    <tal:block condition="python: file.filetype != 'folder'">
+                    <a href="/file/${folder.path}${file.filename}">
+                      <span class="fa-li fa fa-${file.css_class}"></span>
                       ${file.filename}
                     </a>
                     </tal:block>
