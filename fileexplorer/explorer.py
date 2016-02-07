@@ -96,17 +96,44 @@ class Element(object):
     def __init__(self, basepath, filename):
         self.basepath = basepath
         self.filename = filename
+        self.filetype = self._get_filetype()
 
-    @property
-    def filetype(self):
+    def _get_filetype(self):
         extension = os.path.splitext(self.filename)[1]
         _type = 'other'
         for type, exts in self.extensions.items():
             if extension in exts:
                 _type = type
-        if os.path.isdir(os.path.join(self.basepath, self.filename)):
+        if os.path.isdir(self.filepath):
             _type = 'folder'
         return _type
+
+    @property
+    def filepath(self):
+        return os.path.join(self.basepath, self.filename)
+
+    @property
+    def filesize(self):
+        if self.filetype == 'folder':
+            return ''
+        size = os.path.getsize(self.filepath)
+        unit = 'B'
+        factor = 1
+        sizes = {
+            1024. * 1024 * 1024 * 1024: 'TB',
+            1024. * 1024 * 1024: 'GB',
+            1024. * 1024: 'MB',
+            1024.: 'KB',
+        }
+        for s, u in sizes.items():
+            if size > s:
+                unit = u
+                factor = s
+                break
+        size = round(size / factor, 1)
+        if unit in ('B', 'KB'):
+            size = int(size)
+        return '{0} {1}'.format(size, unit)
 
     @property
     def css_class(self):

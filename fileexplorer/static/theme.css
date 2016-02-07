@@ -157,6 +157,7 @@ div.login label {
 div.files {
     background-color: #FFF;
     padding: 1em;
+    color: #333;
 }
 
 div.files div.title {
@@ -176,4 +177,9 @@ div.files a:link, div.files a:visited {
 
 div.files a:hover {
     color: #bc2131;
+}
+
+div.files .size {
+    float: right;
+    margin-right: 0.4em;
 }

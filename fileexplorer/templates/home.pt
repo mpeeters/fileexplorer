@@ -60,12 +60,14 @@
                       <span class="fa-li fa fa-${file.css_class}"></span>
                       ${file.filename}
                     </a>
+                    <span class="size">${file.filesize}</span>
                     </tal:block>
                     <tal:block condition="python: file.filetype != 'folder'">
                     <a href="/file/${folder.path}${file.filename}">
                       <span class="fa-li fa fa-${file.css_class}"></span>
                       ${file.filename}
                     </a>
+                    <span class="size">${file.filesize}</span>
                     </tal:block>
                   </li>
                   </tal:block>
