@@ -150,6 +150,10 @@ p {
   }
 }
 
+div.login label {
+    width: 10em;
+}
+
 div.files {
     background-color: #FFF;
     padding: 1em;

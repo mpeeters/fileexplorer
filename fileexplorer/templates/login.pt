@@ -32,7 +32,7 @@
             <img class="logo img-responsive" src="${request.static_url('fileexplorer:static/pyramid.png')}" alt="pyramid web framework">
           </div>
           <div class="col-md-10">
-            <div class="content">
+            <div class="content login">
               <h1><span class="font-semi-bold">File</span> <span class="smaller">Explorer</span></h1>
               <p>
                 <strong>
