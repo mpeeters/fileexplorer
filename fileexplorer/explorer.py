@@ -32,6 +32,7 @@ class Folder(object):
         files = []
         for filename in os.listdir(self.basepath):
             files.append(Element(self.basepath, filename))
+        files.sort(key=lambda x: x.sort)
         return files
 
     @property
@@ -110,3 +111,9 @@ class Element(object):
     @property
     def css_class(self):
         return self.type_icons.get(self.filetype)
+
+    @property
+    def sort(self):
+        if self.filetype == 'folder':
+            return '!!!_{0}'.format(self.filename)
+        return self.filename
