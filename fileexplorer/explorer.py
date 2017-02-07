@@ -4,13 +4,15 @@ fileexplorer
 ------------
 
 Created by mpeeters
-:copyright: (c) 2015 by Affinitic SPRL
+:copyright: (c) 2016 by NetExpe SPRL
 :license: GPL, see LICENCE.txt for more details.
 """
 
 from pyramid.httpexceptions import HTTPNotFound
 
 import os
+
+from fileexplorer.security import check_permission
 
 
 class Folder(object):
@@ -31,6 +33,9 @@ class Folder(object):
             return []
         files = []
         for filename in os.listdir(self.basepath):
+            filepath = os.path.join(self.basepath, filename)
+            if check_permission(self.request, filepath) is False:
+                continue
             files.append(Element(self.basepath, filename))
         files.sort(key=lambda x: x.sort)
         return files

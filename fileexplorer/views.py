@@ -14,6 +14,7 @@ from pyramid.view import view_config
 
 import os
 
+from fileexplorer import utils
 from fileexplorer.explorer import Folder
 
 
@@ -27,10 +28,9 @@ def home(request):
 
 
 @view_config(route_name='file',
-             permission='view')
+             permission='can_view')
 def file(request):
-    basepath = request.registry.settings.get('fileexplorer.path')
-    filepath = os.path.join(basepath, *request.matchdict.get('path'))
+    filepath = utils.get_path(request)
     if os.path.exists(filepath) is False:
         raise HTTPNotFound
     return FileResponse(filepath, request)
@@ -38,7 +38,7 @@ def file(request):
 
 @view_config(route_name='folder',
              renderer='templates/home.pt',
-             permission='view')
+             permission='can_view')
 def folder(request):
     return {
         'folder': Folder(request),

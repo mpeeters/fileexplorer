@@ -10,10 +10,14 @@ Created by mpeeters
 
 from passlib.apache import HtpasswdFile
 from pyramid.security import Allow
+from pyramid.security import unauthenticated_userid
+
+from fileexplorer import utils
 
 
 USERS = []
 GROUPS = {}
+PERMISSIONS = {}
 
 
 def load_users(filepath):
@@ -21,6 +25,40 @@ def load_users(filepath):
     for user in pwd_file.users():
         USERS.append(user)
     return pwd_file
+
+
+def load_permissions(filepath):
+    with open(filepath, 'r') as f:
+        for permission in f:
+            add_permission(*permission.split(':'))
+
+
+def add_permission(user, folder):
+    if user not in PERMISSIONS:
+        PERMISSIONS[user] = []
+    PERMISSIONS[user].append(folder.strip())
+
+
+def check_permission(request, path):
+    """Ensure that the given user can access to the given path"""
+    path = extract_path(request, path)
+    # All users can access to root folder
+    if path == u'/':
+        return True
+    user = unauthenticated_userid(request)
+    for permission_path in PERMISSIONS.get(user, []):
+        if path.startswith(permission_path):
+            return True
+    return False
+
+
+def extract_path(request, path):
+    """Return the absolute path from a given complete path en system"""
+    system_path = request.registry.settings.get('fileexplorer.path')
+    path = path.replace(system_path, '')
+    if not path:
+        path = '/'
+    return path
 
 
 def add_users_groups(groups):
@@ -51,9 +89,14 @@ def check_password(request, login, password):
 class FileExplorer(object):
     __name__ = None
     __parent__ = None
-    __acl__ = [
-        (Allow, 'group:viewers', 'view'),
-    ]
 
     def __init__(self, request):
         self.request = request
+
+    @property
+    def __acl__(self):
+        acl = [(Allow, 'group:viewers', 'view')]
+        path = utils.get_path(self.request)
+        if check_permission(self.request, path) is True:
+            acl.append([Allow, 'group:viewers', 'can_view'])
+        return acl

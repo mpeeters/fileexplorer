@@ -16,6 +16,7 @@ from fileexplorer.security import FileExplorer
 from fileexplorer.security import add_users_groups
 from fileexplorer.security import groupfinder
 from fileexplorer.security import load_users
+from fileexplorer.security import load_permissions
 
 
 def main(global_config, **settings):
@@ -30,6 +31,8 @@ def main(global_config, **settings):
     user_file = load_users(settings.get('fileexplorer.htpasswd'))
     settings['fileexplorer.users'] = user_file
     add_users_groups(settings.get('fileexplorer.groups').splitlines())
+
+    load_permissions(settings.get('fileexplorer.permissions'))
 
     config = Configurator(
         settings=settings,
