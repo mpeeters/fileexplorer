@@ -55,7 +55,7 @@ def check_permission(request, path):
 def extract_path(request, path):
     """Return the absolute path from a given complete path en system"""
     system_path = request.registry.settings.get('fileexplorer.path')
-    path = path.replace(system_path, '')
+    path = path.replace(system_path, '/')
     if not path:
         path = '/'
     return path
